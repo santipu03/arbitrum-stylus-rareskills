@@ -35,7 +35,7 @@ sol_storage! {
 }
 
 // Declare events and Solidity error types
-/* 1_________ */  {
+sol! {
     error TransferFailed();
     error InsufficientBalance();
 }
@@ -43,7 +43,7 @@ sol_storage! {
 #[derive(SolidityError)]
 pub enum Error {
     TransferFailed(TransferFailed),
-    /* 2_________ */,
+    InsufficientBalance(InsufficientBalance),
 }
 
 #[public]
@@ -51,14 +51,14 @@ impl PushBasedDistributor {
     /// Calculates the amount to distribute per recipient.
     fn get_amount_to_distribute(&self, _token: Address) -> Result<U256, Error> {
         // Get the contract's token balance
-        let _token_instance = /* 3_________ */;
+        let _token_instance = IERC20::new(_token);
         let balance: U256 = _token_instance
             .balance_of(self, self.vm().contract_address())
             .unwrap();
 
         let recipient_count = ADDRESSES.len();
         if balance <= U256::from(0) {
-            return /* 4_________ */;
+            return Err(Error::InsufficientBalance(InsufficientBalance {}));
         }
 
         // Calculate the share per recipient
@@ -70,7 +70,7 @@ impl PushBasedDistributor {
         let amount = self.get_amount_to_distribute(_token.address.clone())?;
 
         for &recipient in ADDRESSES.iter() {
-            if /* 5_________ */ {
+            if _token.transfer(&mut *self, recipient, amount).is_err() {
                 return Err(Error::TransferFailed(TransferFailed {}));
             }
         }

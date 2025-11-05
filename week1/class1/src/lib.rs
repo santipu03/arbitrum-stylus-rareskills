@@ -26,13 +26,13 @@ use openzeppelin_stylus::{
 // `Counter` will be the entrypoint.
 sol_storage! {
     #[entrypoint]
-    pub struct /* 1. ______ */ {
+    pub struct RareToken {
         Erc20 erc20;
         Erc20Metadata metadata;
     }
 }
 
-#[/* 2. ______ */]
+#[public]
 #[implements(IErc20<Error = erc20::Error>, IErc20Metadata, IErc165)]
 impl RareToken {
     #[constructor]
@@ -48,7 +48,7 @@ impl RareToken {
     }
 
     /// Mints tokens to another address
-    pub fn mint_to(&mut self, to: Address, value: /* 3. ______ */) -> Result<(), Vec<u8>> {
+    pub fn mint_to(&mut self, to: Address, value: U256) -> Result<(), Vec<u8>> {
         self.erc20._mint(to, value)?;
         Ok(())
     }

@@ -27,7 +27,7 @@ use openzeppelin_stylus::{
 sol_storage! {
     #[entrypoint]
     pub struct RareToken {
-        /* 1________ */
+        address owner;
         Erc20 erc20;
         Erc20Metadata metadata;
     }
@@ -36,17 +36,17 @@ sol_storage! {
 #[public]
 #[implements(IErc20<Error = erc20::Error>, IErc20Metadata, IErc165)]
 impl RareToken {
-    /* 2________ */
+    #[constructor]
     pub fn constructor(&mut self, name: String, symbol: String) -> Result<(), Vec<u8>> {
         self.metadata.constructor(name, symbol);
 
-        /* 3________ */
+        self.owner.set(self.vm().tx_origin());
         Ok(())
     }
 
     /// Mints tokens
     pub fn mint(&mut self) -> Result<(), Vec<u8>> {
-        if /* 4________ */ {
+        if self.owner.get() != self.vm().msg_sender() {
             panic!("Caller Not Owner");
         }
 
