@@ -26,36 +26,36 @@ sol! {
 impl GlobVars {
     #[constructor]
     pub fn constructor(&mut self) {
-        self.owner.set(/* 1. _______ */);
+        self.owner.set(self.vm().msg_sender());
     }
 
     /// Adds the wei value from msg _value to the number in storage.
     #[payable]
     pub fn receive_funds(&self) -> U256 {
-        /* 2. _______ */
+        self.vm().msg_value()
     }
 
     pub fn get_balance(&self) -> U256 {
-        let this_contract = /* 3. _______ */;
+        let this_contract = self.vm().contract_address();
 
-        /* 4. _______ */
+        self.vm().balance(this_contract)
     }
 
     pub fn get_origin(&self) -> Address {
-        /* 5. _______ */
+        self.vm().tx_origin()
     }
 
     pub fn get_ink(&self, gas: U256) -> U256 {
         let gas_u64 = gas.to::<u64>();
 
-        U256::from(/* 6. _______ */)
+        U256::from(self.vm().gas_to_ink(gas_u64))
     }
 
     pub fn emit_event(&self) {
-        /* 7. _______ */;
+        log(self.vm(), EmitMe {});
     }
 
     pub fn keccek_hash(&self, preimage: U256) -> FixedBytes<32> {
-        self.vm().native_keccak256(/* 8. _______ */)
+        self.vm().native_keccak256(&preimage.to_be_bytes::<32>())
     }
 }
