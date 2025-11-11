@@ -23,16 +23,16 @@ sol_storage! {
         #[borrow]
         ContractA contract_a;
 
-        /* 1. ________ */
+        #[borrow]
         ContractB contract_b;
     }
 }
 
 /// Declare that `Foo` is a contract with the following external methods.
 #[public]
-#[/* 2. ________ */]
+#[inherit(ContractB, ContractA)]
 impl Foo {
     pub fn foofoo(&self) -> U256 {
-        /* 3. ________ */
+        self.contract_a.ret_num()
     }
 }

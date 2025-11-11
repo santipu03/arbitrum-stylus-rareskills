@@ -12,7 +12,7 @@ mod contract_b;
 
 // Import contract from module
 use contract_a::ContractA;
-use /* 1. ______ */
+use contract_b::ContractB;
 
 /// Import items from the SDK. The prelude contains common traits and macros.
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
@@ -32,7 +32,7 @@ pub trait IContractA {
 }
 
 // Implement trait `IContractA`
-#[/* 2. ______ */]
+#[public]
 impl IContractA for Foo {
     fn ret_num_a(&self) -> U256 {
         self.contract_a.ret_num()
@@ -48,13 +48,13 @@ pub trait IContractB {
 #[public]
 impl IContractB for Foo {
     fn ret_num_b(&self) -> U256 {
-        /* 3. ______ */
+        self.contract_b.ret_numb()
     }
 }
 
 /// Declare that `Foo` is a contract with the following external methods.
 #[public]
-#[/* 4. ______ */]
+#[implements(IContractA, IContractB)]
 impl Foo {
     pub fn foofoo(&self) -> U256 {
         self.ret_num_a()
