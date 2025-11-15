@@ -25,7 +25,7 @@ echo "Prime Number"
 echo "************"
 
 
-prime=$(cast call --rpc-url $RPC_URL $CONTRACT_ADDRESS "getPrime(uint64) (uint64)" 50000) # max i have tried is 111000-th 
+prime=$(cast call --rpc-url $RPC_URL $CONTRACT_ADDRESS "getPrime(uint64) (uint64)" 111164) # max i have tried is 111000-th 
 
 
 echo "Prime Number: $prime"
