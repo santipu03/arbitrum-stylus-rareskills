@@ -25,7 +25,7 @@ echo "Monte Carlo"
 echo "************"
 
 
-sc=$(cast call --rpc-url $RPC_URL $CONTRACT_ADDRESS "monteCarloOptionPrice(uint64,uint64,uint64,uint64,uint64,uint64) (uint64)" 1256690730 10 15 10000 9900 43000) 
+sc=$(cast call --rpc-url $RPC_URL $CONTRACT_ADDRESS "monteCarloOptionPrice(uint64,uint64,uint64,uint64,uint64,uint64) (uint64)" 1256690730 10 15 10000 9900 43826) 
 
 
 echo "Monte Carlo: $sc"
